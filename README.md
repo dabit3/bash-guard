@@ -50,6 +50,17 @@ Merge this hook into your agent's JSON configuration, replacing `<matcher>` with
 
 Restart the agent after updating its configuration. In Codex CLI, open `/hooks` and trust the new hook. Use `/hooks` in Codex or Devin to confirm that it loaded.
 
+### oh-my-pi
+
+oh-my-pi (`omp`) doesn't read JSON hook configs; it loads TypeScript hook modules instead. This repo ships a ready-made one in [`oh-my-pi/bash-guard.ts`](oh-my-pi/bash-guard.ts) that shells out to the same guard script:
+
+```bash
+mkdir -p ~/.omp/agent/hooks/pre
+cp oh-my-pi/bash-guard.ts ~/.omp/agent/hooks/pre/
+```
+
+Hooks are only auto-discovered from the `hooks/pre/` and `hooks/post/` subdirectories, so don't drop the file in `hooks/` directly. On a guard hit the hook prompts the user to block or allow the command once; in non-interactive mode (`-p`) it blocks by default.
+
 ## Usage
 
 Bash Guard runs automatically before each shell command. Allowed commands continue normally. Blocked commands are rejected with an explanation.
